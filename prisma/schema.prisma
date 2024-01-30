@@ -9,3 +9,36 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+  userId Int @id @default(autoincrement()) @map("userId")
+  email String @unique @map("email")
+  password String @map("password")
+  name String @map("name")
+
+  resumes Resumes[]
+
+  @@map("Users")
+}
+
+model Resumes {
+  resumeId Int @id @default(autoincrement()) @map("resumeId")
+  userId Int @map("userId")
+  title String @map("title")
+  coment String @db.Text @map("coment")
+  status Status @default(APPLY) @map("status")
+  createdAt DateTime @default(now()) @map("createdAt")
+
+  user Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@map("Resumes")
+}
+
+enum Status {
+  APPLY
+  DROP
+  PASS
+  INTERVIEW1
+  INTERVIEW2
+  FINAL_PASS
+}
