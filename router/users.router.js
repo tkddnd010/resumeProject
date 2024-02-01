@@ -70,9 +70,6 @@ router.post('/sign-in', async (req, res, next) => {
     process.env.REFRESH_SecretKey,
     { expiresIn: '7d' }
   );
-  const findrefresh = await prisma.refreshTokens.findFirst({
-    where: { userId: user.userId },
-  });
 
   await prisma.refreshTokens.create({
     data: { userId: user.userId, token: refreshToken },
