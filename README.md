@@ -39,3 +39,7 @@
 ## 10. notion 혹은 엑셀에 작성하여 전달하는 것 보다 swagger 를 통해 전달하면 장점은 무엇일까요?
 
 #### 답변 : RESTful API를 문서화하고, 사용자가 테스트하고 호출하기 쉽도록 도와주고, 개발자간의 소통을 원할하게 도와줄 수 있습니다.
+
+## API명세서 URL : https://www.notion.so/dc126dcab0514c1997eca8ec22b724c0?v=f5c4da9935da4a7ebc8b330c5d8636ab
+
+## ERD URL : https://www.erdcloud.com/d/WEcG5wSLSHJz9hhDH
