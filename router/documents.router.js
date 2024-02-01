@@ -88,7 +88,7 @@ router.put(
       });
       if (!resume)
         return res
-          .status(401)
+          .status(404)
           .json({ message: '이력서 조회에 실패하였습니다.' });
 
       await prisma.resumes.update({
@@ -103,7 +103,7 @@ router.put(
       return res.json({ message: '이력서가 수정됨' });
     } catch (error) {
       if (error.name === 'PrismaClientKnownRequestError')
-        return res.status(409).json({ message: '권한이 없습니다' });
+        return res.status(403).json({ message: '권한이 없습니다' });
     }
   }
 );
@@ -123,7 +123,7 @@ router.delete(
       });
       if (!resume)
         return res
-          .status(401)
+          .status(404)
           .json({ message: '이력서 조회에 실패하였습니다.' });
 
       await prisma.resumes.delete({
@@ -133,7 +133,7 @@ router.delete(
       return res.json({ message: '이력서가 삭제됨' });
     } catch (error) {
       if (error.name === 'PrismaClientKnownRequestError')
-        return res.status(409).json({ message: '권한이 없습니다' });
+        return res.status(403).json({ message: '권한이 없습니다' });
     }
   }
 );

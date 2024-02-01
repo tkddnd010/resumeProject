@@ -31,6 +31,6 @@ export default async function (req, res, next) {
     }
     if (error.name === 'JsonWebTokenError')
       return res.status(401).json({ message: '토큰이 조작되었습니다.' });
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }

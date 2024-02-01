@@ -26,10 +26,8 @@ export default async function (req, res, next) {
         where: { userId: payload.userId },
       });
 
-      // console.log(userInfo);
-
       if (userInfo.length === 0) {
-        return res.status(419).json({
+        return res.status(404).json({
           message: 'Refresh Token의 정보가 서버에 존재하지 않습니다.',
         });
       }
