@@ -17,7 +17,10 @@ export default async function (req, res, next) {
     if (!authorization) {
       const { refresh } = req.cookies;
 
-      if (!refresh) throw new Error('Refresh Token이 존재하지 않습니다.');
+      if (!refresh)
+        return res
+          .status(404)
+          .json({ message: 'Refresh Token이 존재하지 않습니다.' });
 
       const payload = validateToken(refresh, process.env.REFRESH_SecretKey);
       if (!payload) throw new Error('Refresh Token이 정상적이지 않습니다');

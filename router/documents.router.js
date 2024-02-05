@@ -83,40 +83,45 @@ router.put(
       const { userId } = req.user;
       const { title, coment, status } = req.body;
 
+      console.log(userId);
+
       const resume = await prisma.resumes.findFirst({
         where: { resumeId: +resumeId },
       });
+
       if (!resume)
         return res
           .status(404)
           .json({ message: '이력서 조회에 실패하였습니다.' });
-
+      if (req.user.grade === 'user' && resume.userId !== +userId) {
+        return res.status(400).json({ message: '올바르지 않은 요청입니다.' });
+      }
       await prisma.resumes.update({
         data: {
           title,
           coment,
           status,
         },
-        where: { resumeId: +resumeId, userId: +userId },
+        where: { resumeId: +resumeId },
       });
 
       return res.json({ message: '이력서가 수정됨' });
     } catch (error) {
-      if (error.name === 'PrismaClientKnownRequestError')
-        return res.status(403).json({ message: '권한이 없습니다' });
+      return res.status(500).json({ message: error.message });
     }
   }
 );
 
 // 이력서 삭제 API
 router.delete(
-  '/resumes',
+  '/resumes/:resumeId',
   authMiddleware,
   loginMiddleware,
   async (req, res, next) => {
     try {
+      const { resumeId } = req.params;
       const { userId } = req.user;
-      const { resumeId } = req.body;
+      // const { resumeId } = req.body;
 
       const resume = await prisma.resumes.findFirst({
         where: { resumeId: resumeId },
