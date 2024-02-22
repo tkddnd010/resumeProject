@@ -43,10 +43,10 @@ export class UsersService {
   findUser = async (clientId, email, password) => {
     const user = await this.usersRepository.findUser(clientId, email);
     if (!user) {
-      return res.status(404).json({ message: '존재하지 않는 사용자입니다' });
+      throw new Error('존재하지 않는 사용자입니다.');
     }
     if (!(await bcrypt.compare(password, user.password)))
-      return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
+      throw new Error('비밀번호가 일치하지 않습니다.');
 
     const accessToken = jwt.sign(
       { userId: user.userId },
@@ -73,6 +73,7 @@ export class UsersService {
 
   findUserInfo = async (userId) => {
     const userInfo = await this.usersRepository.findUserInfo(userId);
+    if (!userInfo) throw new Error('존재하지 않는 사용자입니다.');
 
     return {
       userId: userInfo.userId,

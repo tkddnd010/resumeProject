@@ -63,38 +63,67 @@ describe('Resumes Controller Unit Test', () => {
     });
   });
 
-  //   test('createResume Method by Success', async () => {
-  //     const createRequestBodyParams = {
-  //       title: 'Title_Success',
-  //       coment: 'Coment_Success',
-  //     };
-  //     mockRequest.body = createRequestBodyParams;
+  test('createResume Method by Success', async () => {
+    const createRequestBodyParams = {
+      title: '이력서제목입니다',
+      coment: '자기소개글입니다.',
+    };
+    mockRequest.body = createRequestBodyParams;
 
-  //     const createResumeReturnValue = {
-  //       postId: 1,
-  //       ...createRequestBodyParams,
-  //       createdAt: new Date().toString(),
-  //     };
-  //     mockResumesService.createResume.mockReturnValue(createResumeReturnValue);
+    const createResumeReturnValue = {
+      resumeId: 1,
+      ...createRequestBodyParams,
+      createdAt: new Date().toString(),
+    };
+    mockResumesService.createResume.mockReturnValue(createResumeReturnValue);
 
-  //     const createResume = await resumesController.createResume(
-  //       mockRequest,
-  //       mockResponse,
-  //       mockNext
-  //     );
+    await resumesController.createResume(mockRequest, mockResponse, mockNext);
 
-  //     expect(mockResumesService.createResume).toHaveBeenCalledTimes(1);
-  //     expect(mockResumesService.createResume).toHaveBeenCalledWith(
-  //       createRequestBodyParams.title,
-  //       createRequestBodyParams.coment
-  //     );
+    expect(mockResumesService.createResume).toHaveBeenCalledTimes(1);
+    expect(mockResumesService.createResume).toHaveBeenCalledWith(
+      createRequestBodyParams.title,
+      createRequestBodyParams.coment,
+      1
+    );
 
-  //     expect(mockResponse.status).toHaveBeenCalledTimes(1);
-  //     expect(mockResponse.status).toHaveLastReturnedWith(201);
+    expect(mockResponse.status).toHaveBeenCalledTimes(1);
+    expect(mockResponse.status).toHaveLastReturnedWith(201);
 
-  //     expect(mockResponse.json).toBeCalledTimes(1);
-  //     expect(mockResponse.json).toBeCalledWith({
-  //       data: createResumeReturnValue,
-  //     });
-  //   });
+    expect(mockResponse.json).toBeCalledTimes(1);
+    expect(mockResponse.json).toBeCalledWith({
+      data: createResumeReturnValue,
+    });
+  });
+
+  test('getResumeById Method by Success', async () => {
+    const getRequestBodyParams = {
+      resumeId: 1,
+    };
+    mockRequest.body = getRequestBodyParams;
+
+    const getResumeReturnValue = {
+      ...getRequestBodyParams,
+      title: '제목',
+      coment: '자기소개',
+      status: 'PASS',
+      createdAt: new Date().toString(),
+      name: '얌얌이',
+    };
+    mockResumesService.getResumeById.mockReturnValue(getResumeReturnValue);
+
+    await resumesController.getResumeById(mockRequest, mockResponse, mockNext);
+
+    expect(mockResumesService.getResumeById).toHaveBeenCalledTimes(1);
+    expect(mockResumesService.getResumeById).toHaveBeenCalledWith(
+      getRequestBodyParams.resumeId
+    );
+
+    expect(mockResponse.status).toHaveBeenCalledTimes(1);
+    expect(mockResponse.status).toHaveLastReturnedWith(200);
+
+    expect(mockResponse.json).toBeCalledTimes(1);
+    expect(mockResponse.json).toBeCalledWith({
+      data: getResumeReturnValue,
+    });
+  });
 });

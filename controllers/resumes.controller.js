@@ -20,8 +20,7 @@ export class ResumesController {
       const { title, coment } = req.body;
       const { userId } = req.user;
 
-      if (!title || !coment)
-        return res.status(400).json({ message: '필수 입력값을 입력해주세요.' });
+      if (!title || !coment) throw new Error('필수 입력값을 입력해주세요.');
 
       const createdResume = await this.resumesService.createResume(
         title,

@@ -51,7 +51,6 @@ export class ResumesService {
 
   updateResume = async (resumeId, title, coment, status) => {
     const resume = await this.resumesRepository.getResumeById(+resumeId);
-    console.log(resume);
     if (!resume) throw new Error('존재하지 않는 이력서입니다.');
 
     await this.resumesRepository.updateResume(resumeId, title, coment, status);
